@@ -1,10 +1,11 @@
 const { getData, getReply, saveMessageMysql } = require('./mysql')
 const { saveMessageJson } = require('./jsonDb')
-const { getDataIa } = require('./diaglogflow')
+//const { getDataIa } = require('./diaglogflow')
 const  stepsInitial = require('../flow/initial.json')
 const  stepsReponse = require('../flow/response.json')
 
 const get = (message) => new Promise((resolve, reject) => {
+    
     /**
      * Si no estas usando un gesto de base de datos
      */
@@ -51,11 +52,12 @@ const reply = (step) => new Promise((resolve, reject) => {
         });
     }
 })
-
-const getIA = (message) => new Promise((resolve, reject) => {
-    /**
-     * Si usas dialogflow
-     */
+//behind dialogflow
+/**const getIA = (message) => new Promise((resolve, reject) => {
+ 
+    
+     //Si usas dialogflow
+     
      if (process.env.DATABASE === 'dialogflow') {
         let resData = { replyMessage: '', media: null, trigger: null }
         getDataIa(message,(dt) => {
@@ -64,6 +66,8 @@ const getIA = (message) => new Promise((resolve, reject) => {
         })
     }
 })
+*/
+
 
 /**
  * 
@@ -87,4 +91,4 @@ const saveMessage = ( message, trigger, number  ) => new Promise( async (resolve
     }
 })
 
-module.exports = { get, reply, getIA, saveMessage }
+module.exports = { get, reply, saveMessage }

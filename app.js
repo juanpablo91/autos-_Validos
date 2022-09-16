@@ -52,10 +52,10 @@ const listenMessage = () => client.on('message', async msg => {
     }
 
     /**
-     * Si estas usando dialogflow solo manejamos una funcion todo es IA
+     * (VETADO) Si estas usando dialogflow solo manejamos una funcion todo es IA
      */
 
-    if (process.env.DATABASE === 'dialogflow') {
+/*if (process.env.DATABASE === 'dialogflow') {
         if(!message.length) return;
         const response = await bothResponse(message);
         await sendMessage(client, from, response.replyMessage);
@@ -64,6 +64,7 @@ const listenMessage = () => client.on('message', async msg => {
         }
         return
     }
+*/
 
     /**
     * Ver si viene de un paso anterior

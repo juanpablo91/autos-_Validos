@@ -1,9 +1,13 @@
+/*
+!!VETADO AHASTA PROXIMAS ACTULIZACIONES¡¡¡
+
 const dialogflow = require('@google-cloud/dialogflow');
 const fs = require('fs')
-const { nanoid } = require('nanoid')
-/**
- * Debes de tener tu archivo con el nombre "chatbot-account.json" en la raíz del proyecto
- */
+const nanoid  = require('nanoid')
+
+
+  //Debes de tener tu archivo con el nombre "chatbot-account.json" en la raíz del proyecto
+
 
 const KEEP_DIALOG_FLOW = (process.env.KEEP_DIALOG_FLOW === 'true')
 let PROJECID;
@@ -75,3 +79,4 @@ const getDataIa = (message = '', cb = () => { }) => {
 checkFileCredentials();
 
 module.exports = { getDataIa }
+*/
