@@ -1,6 +1,4 @@
-const { httpPlate } = require("./http")
 
-let plate="TUP727"
 
 function isPlate(plate=""){
 
@@ -29,14 +27,10 @@ function isPlate(plate=""){
             console.log("is :", plate," a Plate valid?:",isplate)
             console.log("Letters:", alphaplate.split(""))
             console.log("Number:", numberplate)
-        }
+        }else{}
     }
     return isplate
 }
 
 
-if (isPlate(plate)){
-    httpPlate(plate)
-}else{
-    console.log(plate+" is not a plate valid")
-}
+module.exports = { isPlate}
