@@ -3,44 +3,37 @@ const axios = require('axios');
 const { response } = require('express');
 const https = require('https');
 
-let url ='https://www.simur.gov.co:443/taxis/consulta-conductores-placa';
-
-var body;
-
+const { isPlate } = require('./plate'); //verificador de placas 
+const { securityAlgorith } = require('./algorith.js'); //algoritmo de seguridad
 
 
-async function getPlate(plate="",event,steps) {
 
-  var config ={
-    url:url,
-    method:'get',
+const platehttp  = async(plate="") =>{
+
+  let config ={
+    method: 'get',
+    url: 'https://www.simur.gov.co:443/taxis/consulta-conductores-placa',
     params: {
       text: plate
     },
-    Headers:{'Accept': 'application/json, text/javascript, */*; q=0.01'},
     httpsAgent: new https.Agent({ keepAlive: true, rejectUnauthorized: false }),
   };
-
   
   try {
-      const response= await  axios(config);
-      body =response.data
-
-      httpPlate(JSON.stringify(response.data))
     
+    if( isPlate(plate) ) {
+      const response = await axios(config)
+      if(response.status === 200 ){
+        securityAlgorith(response.data)
+      }
+    }
+
   } catch (error) {
-    console.error(error);
+    console.log(error)
   }
 
-
-};
-
-function httpPlate(plate){
-  
-  var data = plate
-
-  return data 
 }
+
 
 
 
