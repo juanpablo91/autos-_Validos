@@ -1,4 +1,4 @@
-const { httpPlate } = require("./http")
+const { httpPlate, getPlate } = require("./http")
 
 let plate="TUP727"
 
@@ -31,12 +31,16 @@ function isPlate(plate=""){
             console.log("Number:", numberplate)
         }
     }
-    return isplate
+
+    return isplate;
 }
 
 
 if (isPlate(plate)){
-    httpPlate(plate)
+
+  data=getPlate(plate)
+
+    console.log(data)
 }else{
     console.log(plate+" is not a plate valid")
 }
