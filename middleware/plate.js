@@ -1,6 +1,6 @@
-const { httpPlate, getPlate } = require("./http")
-
-
+/*funcion encargada de verificar logicamente si 
+  la placa ingresada es correcta
+*/
 function isPlate(plate=""){
 
     let isplate = false
@@ -21,18 +21,24 @@ function isPlate(plate=""){
           }
 
         if( alphaplate.match(letters) && onlyNumbers(numberplate) ){
+          
             numberplate = numberplate.map(str => {
                 return Number(str);
               });
+
             isplate = true
-            console.log("is :", plate," a Plate valid?:",isplate)
-            console.log("Letters:", alphaplate.split(""))
-            console.log("Number:", numberplate)
-        }else{}
-    }
+            console.group("----IsPlate----")
+            console.log("is :"+plate+" a Plate valid?:"+isplate,
+                        "\nLetters:", alphaplate.split(""),
+                        "\nNumber:", numberplate)
+            console.groupEnd()
+
+        }else
+        {  isplate ="Uno o mas caracteres de la placa no son alfanumericos"}
+
+    }else{ isplate = "Placa no contiene 6 caracteres "}
 
     return isplate;
 }
-
 
 module.exports = { isPlate}

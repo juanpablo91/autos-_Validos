@@ -1,3 +1,6 @@
+const dayjs = require("dayjs")
+const { messagePlate } = require("./messageplate.js")
+
 function securityAlgorith(data=""){
 
     var riesgo="BAJO";
@@ -29,10 +32,18 @@ function securityAlgorith(data=""){
 
     ]
 
+    console.group("---driverDate---")
     let p3 = checkparams(taxiDriver,data2,false)
+    console.groupEnd()
+
+    console.group("---TaxiDate---")
     let p1 = checkparams(taxiData,data[0],false)
+    console.groupEnd()
+
+    console.group("---Dates---")
     let p2= checkparams(taxiDates,data[0],false)
-    let p4 = checkdates(taxiDates,data[0])
+    let p4 = checkdates(taxiDates,data[0],false)
+    console.groupEnd()
 
     if(p1 || p2 ){
         riesgo ="ALTO"
@@ -40,16 +51,25 @@ function securityAlgorith(data=""){
         riesgo = "MEDIO"
     }
 
-    var messagedata =[]
+//mensaje predeterminado SI se encuetra la placa
+    message =[
+      "Nivel de Riesgo: "+riesgo,
+      'Nombres: '+checkdata("nombres",data2),
+      'Apellidos: '+checkdata("apellidos",data2),
+      'Numero de Identificacion: '+checkdata("numeroIdentificacion",data2),
+      "SOAT: "+checkdates("fechaVencimientoSoat",data[0],true),
+      'Tarjeta de Control: '+checkdates("fechaVencimientoTO",data[0],true),
+      "Empresa: "+checkdata("nombreEmpresa",data[0]),
+    ]
 
-    messagePlate(data[0],data2,riesgo)
+    messagePlate("",message)
 
-    console.log(riesgo)
-
+    console.log("Riesgo:"+riesgo)
   
   }
 
 
+//verificador de existencia de parametros
   function checkparams(keys,totalData,p) {
     for(i=0;i< keys.length;i++){
         if(totalData[keys[i]] === null ||totalData[keys[i]] === 0){
@@ -62,6 +82,7 @@ function securityAlgorith(data=""){
     return p
   }
 
+//verificador de existencia de datos a partir de los parametros
   function checkdata(key,totalData) {
     let data =""
     if(totalData[key] === null ||totalData[key] === 0 || totalData[key]=== undefined){
@@ -70,40 +91,36 @@ function securityAlgorith(data=""){
     return data = totalData[key]
   }
 
-  function checkdates(keys,totalData2) {
-    var dateCurrent = new Date()
+ //verificador de logico de fechas
+  function checkdates(keys,totalData2, mode=false) {
+    valide =""
+    var dateCurrent = dayjs()
 
     let date =""
 
-    for(i=0;i< keys.length;i++){
+    if(mode){
+
+      d = new Date( totalData2[keys] )
+      date = dayjs(d)
+
+      if( date > dateCurrent ){
+        valide = "Vigente"
+      }else{ valide ="No Vigente" }
+  
+      return valide
+
+    }else{
+      for(i=0;i< keys.length;i++){
         date =new Date(totalData2[keys[i]])
 
         console.log(keys[i]+": "+ date)
+      }
+      
     }
 
-    if
 
   }
 
-  function messagePlate(totalData,totaldata2,riesgo) {
-
-
-    message =[
-        "Nivel de Riesgo: "+riesgo,
-        'Nombres: '+checkdata("nombres",totaldata2),
-        'Apellidos: '+checkdata("apellidos",totaldata2),
-        'Numero de Identificacion: '+checkdata("numeroIdentificacion",totaldata2),
-        "SOAT",
-        "Targeta de control",
-        'numeroTarjetaControl',
-  
-    ]
-
-    console.log(message)
-
-    return message
-    
-  }
 
 
   
