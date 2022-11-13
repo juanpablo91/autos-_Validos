@@ -33,7 +33,7 @@ const platehttp  = async(plate="") =>{
 
 }
 
-platehttp("TUP727")
+//platehttp("TUP727")
 
 module.exports = { platehttp}
   //openssl s_client -connect simur.gov.co:443 -servername simur.gov.co | tee logcertfile
