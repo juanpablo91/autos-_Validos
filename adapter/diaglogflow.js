@@ -36,7 +36,7 @@ const checkFileCredentials = () => {
 // Detect intent method
 const detectIntent = async (queryText) => {
     let media = null;
-    const sessionId = KEEP_DIALOG_FLOW ? 1 : nanoid();
+    const sessionId = KEEP_DIALOG_FLOW ? 1 : crypto.randomUUID();
     const sessionPath = sessionClient.projectAgentSessionPath(PROJECID, sessionId);
     const languageCode = process.env.LANGUAGE
     const request = {
@@ -60,7 +60,7 @@ const detectIntent = async (queryText) => {
         const { fields } = parsePayload.payload
         media = fields.media.stringValue || null
     }
-    const customPayload = parsePayload['payload']
+    const customPayload = parsePayload ? parsePayload['payload'] : null
 
     const parseData = {
         replyMessage: queryResult.fulfillmentText,
