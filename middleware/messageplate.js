@@ -33,7 +33,7 @@ const fs = require("fs").promises
                 
                 fs.writeFile(fn, JSON.stringify(json))
                         .then(  () => { console.log('Update Success')
-                        console.log(json)
+                        console.log(json.DEFAULT.replyMessage)
                       })
                         .catch(err => { console.log("Update Failed: " + err);});
             })

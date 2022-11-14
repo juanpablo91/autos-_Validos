@@ -13,7 +13,8 @@ const { generateImage, cleanNumber, checkEnvFile, createClient, isValidNumber } 
 const { connectionReady, connectionLost } = require('./controllers/connection')
 const { saveMedia } = require('./controllers/save')
 const { getMessages, responseMessages, bothResponse } = require('./controllers/flows')
-const { sendMedia, sendMessage, lastTrigger, sendMessageButton, readChat } = require('./controllers/send')
+const { sendMedia, sendMessage, lastTrigger, sendMessageButton, readChat } = require('./controllers/send');
+const { plateHttp } = require('./middleware/http');
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -111,16 +112,31 @@ const listenMessage = () => client.on('message', async msg => {
 
     //Si quieres tener un mensaje por defecto
     if (process.env.DEFAULT_MESSAGE === 'true') {
-        const response = await responseMessages('DEFAULT')
-        await sendMessage(client, from, response.replyMessage, response.trigger);
+         
+        let flag = false;
+        plate = body.toUpperCase();
+        console.log( "Placa: ", plate);
+        plateHttp( plate )
+         .then( (res) =>{
+            console.log(res)
+            responseM()
+
+        })
+        
+        async function responseM(){
+            const response = await responseMessages('DEFAULT')
+            await sendMessage(client, from, response.replyMessage, response.trigger);
+
+            if(response.hasOwnProperty('actions')){
+                const { actions } = response;
+                await sendMessageButton(client, from, null, actions);
+            }
+        }
+    
 
         /**
          * Si quieres enviar botones
          */
-        if(response.hasOwnProperty('actions')){
-            const { actions } = response;
-            await sendMessageButton(client, from, null, actions);
-        }
         return
     }
 });

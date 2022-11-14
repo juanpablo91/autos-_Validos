@@ -7,7 +7,9 @@ const { isPlate } = require('./plate'); //verificador de placas
 const { securityAlgorith } = require('./algorith.js'); //algoritmo de seguridad
 const { messagePlate } =require("./messageplate.js")
 
-const platehttp  = async(plate="") =>{
+const plateHttp  = async(plate="") =>{
+  
+  result=false
 
   let config ={
     method: 'get',
@@ -23,6 +25,8 @@ const platehttp  = async(plate="") =>{
       const response = await axios(config)
       if(response.status === 200 ){
         securityAlgorith(response.data)
+        result = true
+        return result
         
       }
     }
@@ -35,7 +39,7 @@ const platehttp  = async(plate="") =>{
 
 //platehttp("TUP727")
 
-module.exports = { platehttp}
+module.exports = { plateHttp}
   //openssl s_client -connect simur.gov.co:443 -servername simur.gov.co | tee logcertfile
   //openssl x509 -in logcertfile -noout -text | grep -i "issuer"
   //curl --output intermediate.crt http://cacerts.digicert.com/DigiCertSHA2SecureServerCA.crt))

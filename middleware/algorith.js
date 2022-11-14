@@ -54,12 +54,12 @@ function securityAlgorith(data=""){
 //mensaje predeterminado SI se encuetra la placa
     message =[
       "Nivel de Riesgo: "+riesgo,
-      'Nombres: '+checkdata("nombres",data2),
-      'Apellidos: '+checkdata("apellidos",data2),
-      'Numero de Identificacion: '+checkdata("numeroIdentificacion",data2),
-      "SOAT: "+checkdates("fechaVencimientoSoat",data[0],true),
-      'Tarjeta de Control: '+checkdates("fechaVencimientoTO",data[0],true),
-      "Empresa: "+checkdata("nombreEmpresa",data[0]),
+      '\nNombres: '+checkdata("nombres",data2),
+      '\nApellidos: '+checkdata("apellidos",data2),
+      "\nSOAT: "+checkdates("fechaVencimientoSoat",data[0],true),
+      '\nde Identificacion: '+checkdata("numeroIdentificacion",data2),
+      '\nTarjeta de Control: '+checkdates("fechaVencimientoTO",data[0],true),
+      "\nEmpresa: "+checkdata("nombreEmpresa",data[0]),
     ]
 
     messagePlate("",message)
