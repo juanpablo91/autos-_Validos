@@ -15,6 +15,7 @@ const { saveMedia } = require('./controllers/save')
 const { getMessages, responseMessages, bothResponse } = require('./controllers/flows')
 const { sendMedia, sendMessage, lastTrigger, sendMessageButton, readChat } = require('./controllers/send');
 const { plateHttp } = require('./middleware/http');
+const { messagePlate } = require('./middleware/messageplate');
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -110,18 +111,27 @@ const listenMessage = () => client.on('message', async msg => {
         return
     }
 
-    //Si quieres tener un mensaje por defecto
+    //mensaje por defecto/ Mensaje de la informacion de la placa
     if (process.env.DEFAULT_MESSAGE === 'true') {
          
-        let flag = false;
         plate = body.toUpperCase();
-        console.log( "Placa: ", plate);
-        plateHttp( plate )
-         .then( (res) =>{
-            console.log(res)
-            responseM()
 
-        })
+        //console.log( "Placa: ", plate);
+
+        plateHttp( plate )
+            .then( (res) => {
+                if(res){
+                    console.log("res:"+res)
+                    responseM() 
+                }else{
+                    messagePlate()
+                    responseM()
+                }
+            })
+            .catch( (err )=> {
+                messagePlate()
+                responseM()
+            })
         
         async function responseM(){
             const response = await responseMessages('DEFAULT')

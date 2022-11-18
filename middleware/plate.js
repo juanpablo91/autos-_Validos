@@ -34,9 +34,9 @@ function isPlate(plate=""){
             console.groupEnd()
 
         }else
-        {  isplate ="Uno o mas caracteres de la placa no son alfanumericos"}
+        { console.log("Uno o mas caracteres de la placa no son alfanumericos")}
 
-    }else{ isplate = "Placa no contiene 6 caracteres "}
+    }else{ console.log("Placa no contiene 6 caracteres ")}
 
     return isplate;
 }

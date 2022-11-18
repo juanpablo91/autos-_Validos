@@ -1,6 +1,6 @@
 
 const axios = require('axios');
-const { response } = require('express');
+//const { response } = require('express');
 const https = require('https');
 
 const { isPlate } = require('./plate'); //verificador de placas 
@@ -21,25 +21,33 @@ const plateHttp  = async(plate="") =>{
   };
   
   try {
-    if( isPlate(plate) ) {
-      const response = await axios(config)
-      if(response.status === 200 ){
-        securityAlgorith(response.data)
-        result = true
-        return result
-        
-      }
-    }
 
+    if( isPlate(plate) ) {
+      // si la placa si cumple la sintaxis llamado get htpp
+      const response = await axios(config)
+      
+      if(response.status === 200 && response.data.length != 0){
+        let message_ = securityAlgorith(response.data);
+        messagePlate(message_)
+      }else if(response.data.length === 0){
+        console.log("control http -33")
+        messagePlate("plateFound");
+      }else{
+        messagePlate();
+      }
+
+      result = true;
+    }else{
+      //si la placa no cumple con la sintaxis 
+      messagePlate("plateSintax")
+      result = true;
+    }
   } catch (error) {
     console.log(error)
+    messagePlate();
   }
 
+  return result
 }
 
-//platehttp("TUP727")
-
 module.exports = { plateHttp}
-  //openssl s_client -connect simur.gov.co:443 -servername simur.gov.co | tee logcertfile
-  //openssl x509 -in logcertfile -noout -text | grep -i "issuer"
-  //curl --output intermediate.crt http://cacerts.digicert.com/DigiCertSHA2SecureServerCA.crt))

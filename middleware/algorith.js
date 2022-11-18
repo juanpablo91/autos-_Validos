@@ -62,10 +62,8 @@ function securityAlgorith(data=""){
       "\nEmpresa: "+checkdata("nombreEmpresa",data[0]),
     ]
 
-    messagePlate("",message)
-
     console.log("Riesgo:"+riesgo)
-  
+    return message
   }
 
 
