@@ -1,3 +1,4 @@
 {
-    "ignore": ["flow/response.json", "./app.js","chats/." ]
+    "verbose":true,
+    "ignore": ["flow/response.json","chats/." ]
   }

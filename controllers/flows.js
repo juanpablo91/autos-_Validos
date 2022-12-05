@@ -7,8 +7,6 @@ const getMessages = async (message) => {
 }
 
 const responseMessages = async (step) => {
-
-    
     
     const data = await reply(step)
     if(data && data.media){

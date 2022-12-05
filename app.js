@@ -115,28 +115,22 @@ const listenMessage = () => client.on('message', async msg => {
     if (process.env.DEFAULT_MESSAGE === 'true') {
          
         plate = body.toUpperCase();
-
-        //console.log( "Placa: ", plate);
-
         plateHttp( plate )
             .then( (res) => {
-                if(res){
-                    console.log("res:"+res)
-                    responseM() 
-                }else{
-                    messagePlate()
-                    responseM()
-                }
+                console.log("mandando mensaje...")
+                console.log(JSON.stringify(res))
+                responseM(res)
             })
             .catch( (err )=> {
-                messagePlate()
                 responseM()
             })
         
-        async function responseM(){
+        async function responseM(message=""){
             const response = await responseMessages('DEFAULT')
-            await sendMessage(client, from, response.replyMessage, response.trigger);
-
+            //let res = response.replyMessage
+            let res= message.join('');
+            res = res.toString();
+            await sendMessage(client, from, res, response.trigger);
             if(response.hasOwnProperty('actions')){
                 const { actions } = response;
                 await sendMessageButton(client, from, null, actions);

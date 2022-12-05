@@ -8,8 +8,6 @@ const { securityAlgorith } = require('./algorith.js'); //algoritmo de seguridad
 const { messagePlate } =require("./messageplate.js")
 
 const plateHttp  = async(plate="") =>{
-  
-  result=false
 
   let config ={
     method: 'get',
@@ -28,26 +26,30 @@ const plateHttp  = async(plate="") =>{
       
       if(response.status === 200 && response.data.length != 0){
         let message_ = securityAlgorith(response.data);
-        messagePlate(message_)
+        console.log("htto 29")
+        let res =await messagePlate("",message_)
+        return res
+        
       }else if(response.data.length === 0){
         console.log("control http -33")
-        messagePlate("plateFound");
+        let res = await messagePlate("plateFound");
+        return res
+
       }else{
-        messagePlate();
+        let res = await messagePlate()
+        return res
       }
 
-      result = true;
     }else{
       //si la placa no cumple con la sintaxis 
-      messagePlate("plateSintax")
-      result = true;
+      let res = await messagePlate("plateSintax")
+      return res
     }
+
   } catch (error) {
     console.log(error)
-    messagePlate();
+    await messagePlate();
   }
-
-  return result
 }
 
 module.exports = { plateHttp}

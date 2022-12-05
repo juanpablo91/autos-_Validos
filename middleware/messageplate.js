@@ -3,7 +3,8 @@
 const fs = require("fs").promises
   // Este modulo es el creador de mensajes por placa 
 
-  function messagePlate( messagetype=null,defaultMs="") {
+  async function messagePlate( messagetype=null,defaultMs="") {
+    //this function build de message deppending to which messatype its receives
 
     messagePlateSintax=[
       "Lo siento la placa no es correcta por favor verifique:",
@@ -14,16 +15,17 @@ const fs = require("fs").promises
     ];
 
     messagePlateFound=[
-      "La Placa es correcta, pero no se encuentra en el sistema SIMUR",
-      "de Bogotá, VERIFIQUE:", 
-      "1- La placa es de Colombia y de la ciudad de Bogotá", 
-      "2- placa es de servicio público y", 
-      "es de taxi específicamente", 
-      "SI ya hizo la verificación de estas condiciones y ",
-      "no hay resultado, puede ser:",
-      "Riesgo: Alto",
-      "El vehículo puede tener placas falsas, adulteración de estas, sustitución",
-      "por otro vehículo no registrado en Bogotá y adscrito a SIMUR" 
+      "La Placa es correcta, pero no se encuentra en el sistema SIMUR ",
+      "\nde Bogotá, VERIFIQUE:\n", 
+      "\n1- La placa es de Colombia y de la ciudad de Bogotá\n", 
+      "\n2- La placa es de servicio público y", 
+      "\nes de taxi específicamente\n", 
+      "\nSI ya hizo la verificación de estas condiciones y no hay resultado",
+      "\npuede ser:",
+      "\n*El vehículo puede tener placas ",
+      "\nfalsificadas,adulteradas,",
+      "\nsustiudas, o no esta registrado en Bogota\n",
+      "\nRiesgo: Alto"
     ];
     messageDefaulterr=[
       "Lo sentimos, hubo un error interno, estamos trabajando para arreglarlo...",
@@ -36,6 +38,7 @@ const fs = require("fs").promises
         break;
       case "plateSintax":
         message= messagePlateSintax;
+        console.log("39 control")
         break;
       case "plateFound":
         message= messagePlateFound;
@@ -49,33 +52,50 @@ const fs = require("fs").promises
     console.log(message)
     console.groupEnd()
 
-    messagePlateCreation(message)
-    .then(res => console.log( "hh"+res))
-    
+    return message
+
+    /*
+    let res = await messagePlateCreation(message)
+    .then((res)=> {
+      console.log( "message:"+res)
+      return res;
+    })
+    .catch( err => console.log( err ))
+
+    if( res ){
+      return message
+    }
+    */
+
   }
   
+/*
+
+this function (read an write ) the message build previsuly by messagePlate(),in response.json
+now is desactived, because the file save a instance past of response.json
+and can not update when the response.json changes its value
 
   async function messagePlateCreation(message){
-  let fn = "flow/response.json";
+   let fn = "flow/response.json";
 
-  fs.readFile(fn, 'utf8') 
+  let res = await fs.readFile(fn, 'utf8') 
         .then(data => { 
                 let json = JSON.parse(data);
                 json.DEFAULT.replyMessage = message
-                
-                fs.writeFile(fn, JSON.stringify(json))
-                        .then(  () => { console.log('Update Success')
-                        console.log(json.DEFAULT.replyMessage)
 
-                      })
-                        .catch(err => { console.log("Update Failed: " + err);});
+                let res = await = fs.writeFile(fn, JSON.stringify(json))
+                    .then(  () => { 
+                     console.log('Update Success')
+                     console.log(json.DEFAULT.replyMessage)
+                     return true
+                     
+                  })
+                  .catch(err => { console.log("Update Failed: " + err);});
+                  return res
             })
-        .catch(err => { console.log("Read Error: " +err);});
+        .catch(err => { console.log("Read Error: " +err);})
 
-        return "message Create success"
-  
+        return res
 }
-
-
-
+*/
 module.exports = { messagePlate}  
